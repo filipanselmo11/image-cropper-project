@@ -1,0 +1,52 @@
+<div class="modal" tabindex="-1" role="dialog" [ngClass]="{'show': isOpen}" (click)="closeModal()">
+  <div class="modal-dialog modal-dialog-centered" role="document" (click)="$event.stopPropagation()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Selecione as Imagens</h5>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Selecionar e Cortar Imagem de Perfil -->
+        <h6>Imagem de Perfil</h6>
+        <input
+          type="file"
+          (change)="fileChangeEvent($event, 'profile')"
+          accept="image/*"
+        />
+        <image-cropper
+          *ngIf="imageChangedEventProfile"
+          [imageChangedEvent]="imageChangedEventProfile"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="1 / 1"
+          [roundCropper]="true"
+          format="png"
+          (imageCropped)="imageCropped($event, 'profile')">
+        </image-cropper>
+        <div *ngIf="croppedImageProfile" class="preview">
+          <img [src]="croppedImageProfile" alt="Imagem de Perfil" class="img-preview" />
+        </div>
+
+        <!-- Selecionar e Cortar Imagem de Banner -->
+        <h6>Imagem de Banner</h6>
+        <input type="file" (change)="fileChangeEvent($event, 'banner')" accept="image/*" />
+        <image-cropper
+          *ngIf="imageChangedEventBanner"
+          [imageChangedEvent]="imageChangedEventBanner"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="16 / 9"
+          format="png"
+          (imageCropped)="imageCropped($event, 'banner')">
+        </image-cropper>
+        <div *ngIf="croppedImageBanner" class="preview">
+          <img [src]="croppedImageBanner" alt="Imagem de Banner" class="img-preview-banner" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="saveCroppedImages()">Salvar Imagens</button>
+      </div>
+    </div>
+  </div>
+</div>
